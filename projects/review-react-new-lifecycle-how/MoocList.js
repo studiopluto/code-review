@@ -20,9 +20,9 @@ class MoocList extends React.Component {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         return {
-            ...preState,
+            ...prevState,
             ...nextProps,
-            results: [...nextProps.results]
+            lectures: [...nextProps.lectures],
         }
     }
 
@@ -30,8 +30,8 @@ class MoocList extends React.Component {
         return (
             <div>
                 <ul>
-                    {this.state.results.map((lecture) => {
-                        return <li>{lecture.title}</li>
+                    {this.state.results.map((lecture, i) => {
+                        return <li key={i}>{lecture.title}</li>
                     })}
                 </ul>
                 <button onClick={this.handleFetchMoreClick}> more.. </button>
@@ -43,13 +43,15 @@ class MoocList extends React.Component {
 MoocList.propTypes = {
     count: PropTypes.number,
     page: PropTypes.number,
-    results: PropTypes.array,
+    lectures: PropTypes.arrayOf(PropTypes.shape({
+        title: PropTypes.string.isRequired,
+    }))
 }
 
 MoocList.defaultProps = {
     count: 0,
     page: 0,
-    results: [],
+    lectures: [],
 };
 
 export default connect(
